@@ -30,172 +30,51 @@ function randomOutcome() {
     return undefined;
 }
 
-function slow (callback) {
-    setTimeout(() => {
-        callback(randomOutcome());
-    }, 1000);
+function slow () {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            var outcome = randomOutcome();
+
+            if (outcome) {
+                reject(outcome);
+                return;
+            }
+
+            resolve();
+        }, 1000);
+    });
 }
 
-function slower(callback) {
-    setTimeout(() => {
-        callback();
-    }, 2000);
+function slower () {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve();
+        }, 2000);
+    });
 }
 
-function slowest(callback) {
-    setTimeout(() => {
-        callback();
-    }, 3000);
+function slowest () {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve();
+        }, 3000);
+    });
 }
 
-function slowesterer(callback) {
-
-    setTimeout(() => {
-        callback();
-    }, 4000);
+function slowesterer () {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve();
+        }, 4000);
+    });
 }
 
-async.series([
-    (callback) => {
-        slow((err) => {
-            if (err && err.error === "fixable") {
-                // fix the error
-            }
-
-            if (err && err.error === "warnable") {
-                console.log("Imma let you finish, but: " + err.stack);
-            }
-
-            if (err) {
-                callback(err);
-                return;
-            }
-
-            console.log(1);
-            callback();
-        });
-    },
-    (callback) => {
-        slow((err) => {
-            if (err && err.error === "fixable") {
-                // fix the error
-            }
-
-            if (err && err.error === "warnable") {
-                console.log("Imma let you finish, but: " + err.stack);
-            }
-
-            if (err) {
-                callback(err);
-                return;
-            }
-
-            console.log(2);
-            callback();
-        });
-    },
-    (callback) => {
-        slower((err) => {
-            if (err) {
-                callback(err);
-                return;
-            }
-            console.log(3);
-            callback();
-        });
-    },
-    (callback) => {
-        slow((err) => {
-            if (err && err.error === "fixable") {
-                // fix the error
-            }
-
-            if (err && err.error === "warnable") {
-                console.log("Imma let you finish, but: " + err.stack);
-            }
-
-            if (err) {
-                callback(err);
-                return;
-            }
-
-            console.log(4);
-            callback();
-        });
-    },
-    (callback) => {
-        slowest((err) => {
-            if (err) {
-                callback(err);
-                return;
-            }
-            console.log(5);
-            callback();
-        });
-    },
-    (callback) => {
-        slower((err) => {
-            if (err) {
-                callback(err);
-                return;
-            }
-            console.log(6);
-            callback();
-        });
-    },
-    (callback) => {
-        slowesterer((err) => {
-            if (err) {
-                callback(err);
-                return;
-            }
-            console.log(7);
-            callback();
-        });
-    },
-    (callback) => {
-        slowest((err) => {
-            if (err) {
-                callback(err);
-                return;
-            }
-            console.log(8);
-            callback();
-        });
-    },
-    (callback) => {
-        slow((err) => {
-            if (err && err.error === "fixable") {
-                // fix the error
-            }
-
-            if (err && err.error === "warnable") {
-                console.log("Imma let you finish, but: " + err.stack);
-            }
-
-            if (err) {
-                callback(err);
-                return;
-            }
-            console.log(9);
-            callback();
-        });
-    },
-    (callback) => {
-        slower((err) => {
-            if (err) {
-                callback(err);
-                return;
-            }
-            console.log(10);
-            callback();
-        });
+slow()
+.then(
+    () => {
+    }, 
+    (e) => {
+        console.log("Something happened: " + e.stack);
     }
-], (err) => {
-    if (err) {
-        console.log("Something happened: " + err.stack);
-    } else {
-        console.log("Success!");
-    }
-});
+);
 
