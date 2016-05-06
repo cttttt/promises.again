@@ -1,14 +1,12 @@
 /* eslint-disable no-console */
 
-function slow() {
-    return new Promise((resolve/*, reject*/) => {
-        setTimeout(() => {
-            resolve();
-        }, 1000);
-    });
+function slow (callback) {
+    setTimeout(() => {
+        callback();
+    }, 1000);
 }
 
-slow()
-.then(() => {
+slow(function () {
     console.log("done");
 });
+
