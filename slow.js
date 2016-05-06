@@ -8,7 +8,7 @@ function sample(array) {
 }
 
 function randomOutcome() {
-    return sample([ 
+    var outcomeLabel =  sample([ 
         "fixable",
         "warnable",
         "bad",
@@ -20,6 +20,14 @@ function randomOutcome() {
         undefined,
         undefined
     ]);
+
+    if (outcomeLabel) {
+        var outcome = new Error();
+        outcome.error = outcomeLabel;
+        return outcome;
+    }
+
+    return undefined;
 }
 
 function slow (callback) {
@@ -50,12 +58,12 @@ function slowesterer(callback) {
 async.series([
     function (callback) {
         slow(function (err) {
-            if (err === "fixable") {
+            if (err && err.error === "fixable") {
                 // fix the error
             }
 
-            if (err === "warnable") {
-                console.log("Imma let you finish, but: " + err);
+            if (err && err.error === "warnable") {
+                console.log("Imma let you finish, but: " + err.stack);
             }
 
             if (err) {
@@ -69,12 +77,12 @@ async.series([
     },
     function (callback) {
         slow(function (err) {
-            if (err === "fixable") {
+            if (err && err.error === "fixable") {
                 // fix the error
             }
 
-            if (err === "warnable") {
-                console.log("Imma let you finish, but: " + err);
+            if (err && err.error === "warnable") {
+                console.log("Imma let you finish, but: " + err.stack);
             }
 
             if (err) {
@@ -98,12 +106,12 @@ async.series([
     },
     function (callback) {
         slow(function (err) {
-            if (err === "fixable") {
+            if (err && err.error === "fixable") {
                 // fix the error
             }
 
-            if (err === "warnable") {
-                console.log("Imma let you finish, but: " + err);
+            if (err && err.error === "warnable") {
+                console.log("Imma let you finish, but: " + err.stack);
             }
 
             if (err) {
@@ -157,12 +165,12 @@ async.series([
     },
     function (callback) {
         slow(function (err) {
-            if (err === "fixable") {
+            if (err && err.error === "fixable") {
                 // fix the error
             }
 
-            if (err === "warnable") {
-                console.log("Imma let you finish, but: " + err);
+            if (err && err.error === "warnable") {
+                console.log("Imma let you finish, but: " + err.stack);
             }
 
             if (err) {
@@ -185,7 +193,7 @@ async.series([
     }
 ], function (err) {
     if (err) {
-        console.log("Something happened: " + err);
+        console.log("Something happened: " + err.stack);
     } else {
         console.log("Success!");
     }
