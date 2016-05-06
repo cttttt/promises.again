@@ -56,8 +56,8 @@ function slowesterer(callback) {
 }
 
 async.series([
-    function (callback) {
-        slow(function (err) {
+    (callback) => {
+        slow((err) => {
             if (err && err.error === "fixable") {
                 // fix the error
             }
@@ -75,8 +75,8 @@ async.series([
             callback();
         });
     },
-    function (callback) {
-        slow(function (err) {
+    (callback) => {
+        slow((err) => {
             if (err && err.error === "fixable") {
                 // fix the error
             }
@@ -94,8 +94,8 @@ async.series([
             callback();
         });
     },
-    function (callback) {
-        slower(function (err) {
+    (callback) => {
+        slower((err) => {
             if (err) {
                 callback(err);
                 return;
@@ -104,8 +104,8 @@ async.series([
             callback();
         });
     },
-    function (callback) {
-        slow(function (err) {
+    (callback) => {
+        slow((err) => {
             if (err && err.error === "fixable") {
                 // fix the error
             }
@@ -123,8 +123,8 @@ async.series([
             callback();
         });
     },
-    function (callback) {
-        slowest(function (err) {
+    (callback) => {
+        slowest((err) => {
             if (err) {
                 callback(err);
                 return;
@@ -133,8 +133,8 @@ async.series([
             callback();
         });
     },
-    function (callback) {
-        slower(function (err) {
+    (callback) => {
+        slower((err) => {
             if (err) {
                 callback(err);
                 return;
@@ -143,8 +143,8 @@ async.series([
             callback();
         });
     },
-    function (callback) {
-        slowesterer(function (err) {
+    (callback) => {
+        slowesterer((err) => {
             if (err) {
                 callback(err);
                 return;
@@ -153,8 +153,8 @@ async.series([
             callback();
         });
     },
-    function (callback) {
-        slowest(function (err) {
+    (callback) => {
+        slowest((err) => {
             if (err) {
                 callback(err);
                 return;
@@ -163,8 +163,8 @@ async.series([
             callback();
         });
     },
-    function (callback) {
-        slow(function (err) {
+    (callback) => {
+        slow((err) => {
             if (err && err.error === "fixable") {
                 // fix the error
             }
@@ -181,8 +181,8 @@ async.series([
             callback();
         });
     },
-    function (callback) {
-        slower(function (err) {
+    (callback) => {
+        slower((err) => {
             if (err) {
                 callback(err);
                 return;
@@ -191,7 +191,7 @@ async.series([
             callback();
         });
     }
-], function (err) {
+], (err) => {
     if (err) {
         console.log("Something happened: " + err.stack);
     } else {
