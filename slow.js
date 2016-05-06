@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 
+var async = require("async");
+
 function sample(array) {
     var randomIndex = Math.floor(Math.random() * (array.length - 1));
     return array[randomIndex];
@@ -45,118 +47,147 @@ function slowesterer(callback) {
     }, 4000);
 }
 
-slow(function (err) {
-    if (err === "fixable") {
-        // fix the error
-    }
+async.series([
+    function (callback) {
+        slow(function (err) {
+            if (err === "fixable") {
+                // fix the error
+            }
 
-    if (err === "warnable") {
-        console.log("Imma let you finish, but: " + err);
-    }
+            if (err === "warnable") {
+                console.log("Imma let you finish, but: " + err);
+            }
 
-    if (err) {
-        console.log("Something Happened!");
-        return;
-    }
+            if (err) {
+                callback(err);
+                return;
+            }
 
-    console.log(1);
+            console.log(1);
+            callback();
+        });
+    },
+    function (callback) {
+        slow(function (err) {
+            if (err === "fixable") {
+                // fix the error
+            }
 
-    slow(function (err) {
-        if (err === "fixable") {
-            // fix the error
-        }
+            if (err === "warnable") {
+                console.log("Imma let you finish, but: " + err);
+            }
 
-        if (err === "warnable") {
-            console.log("Imma let you finish, but: " + err);
-        }
+            if (err) {
+                callback(err);
+                return;
+            }
 
-        if (err) {
-            console.log("Something Happened!");
-            return;
-        }
-
-        console.log(2);
-
+            console.log(2);
+            callback();
+        });
+    },
+    function (callback) {
         slower(function (err) {
             if (err) {
-                console.log("Something Happened!");
+                callback(err);
                 return;
             }
             console.log(3);
-
-            slow(function (err) {
-                if (err === "fixable") {
-                    // fix the error
-                }
-
-                if (err === "warnable") {
-                    console.log("Imma let you finish, but: " + err);
-                }
-
-                if (err) {
-                    console.log("Something Happened!");
-                    return;
-                }
-
-                console.log(4);
-
-                slowest(function (err) {
-                    if (err) {
-                        console.log("Something Happened!");
-                        return;
-                    }
-                    console.log(5);
-
-                    slower(function (err) {
-                        if (err) {
-                            console.log("Something Happened!");
-                            return;
-                        }
-                        console.log(6);
-
-                        slowesterer(function (err) {
-                            if (err) {
-                                console.log("Something Happened!");
-                                return;
-                            }
-                            console.log(7);
-
-                            slowest(function (err) {
-                                if (err) {
-                                    console.log("Something Happened!");
-                                    return;
-                                }
-                                console.log(8);
-
-                                slow(function (err) {
-                                    if (err === "fixable") {
-                                        // fix the error
-                                    }
-
-                                    if (err === "warnable") {
-                                        console.log("Imma let you finish, but: " + err);
-                                    }
-
-                                    if (err) {
-                                        console.log("Something Happened!");
-                                        return;
-                                    }
-                                    console.log(9);
-
-                                    slower(function (err) {
-                                        if (err) {
-                                            console.log("Something Happened!");
-                                            return;
-                                        }
-                                        console.log(10);
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            });
+            callback();
         });
-    });
+    },
+    function (callback) {
+        slow(function (err) {
+            if (err === "fixable") {
+                // fix the error
+            }
+
+            if (err === "warnable") {
+                console.log("Imma let you finish, but: " + err);
+            }
+
+            if (err) {
+                callback(err);
+                return;
+            }
+
+            console.log(4);
+            callback();
+        });
+    },
+    function (callback) {
+        slowest(function (err) {
+            if (err) {
+                callback(err);
+                return;
+            }
+            console.log(5);
+            callback();
+        });
+    },
+    function (callback) {
+        slower(function (err) {
+            if (err) {
+                callback(err);
+                return;
+            }
+            console.log(6);
+            callback();
+        });
+    },
+    function (callback) {
+        slowesterer(function (err) {
+            if (err) {
+                callback(err);
+                return;
+            }
+            console.log(7);
+            callback();
+        });
+    },
+    function (callback) {
+        slowest(function (err) {
+            if (err) {
+                callback(err);
+                return;
+            }
+            console.log(8);
+            callback();
+        });
+    },
+    function (callback) {
+        slow(function (err) {
+            if (err === "fixable") {
+                // fix the error
+            }
+
+            if (err === "warnable") {
+                console.log("Imma let you finish, but: " + err);
+            }
+
+            if (err) {
+                callback(err);
+                return;
+            }
+            console.log(9);
+            callback();
+        });
+    },
+    function (callback) {
+        slower(function (err) {
+            if (err) {
+                callback(err);
+                return;
+            }
+            console.log(10);
+            callback();
+        });
+    }
+], function (err) {
+    if (err) {
+        console.log("Something happened: " + err);
+    } else {
+        console.log("Success!");
+    }
 });
 
