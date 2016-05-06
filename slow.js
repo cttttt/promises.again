@@ -1,8 +1,28 @@
 /* eslint-disable no-console */
 
+function sample(array) {
+    var randomIndex = Math.floor(Math.random() * (array.length - 1));
+    return array[randomIndex];
+}
+
+function randomOutcome() {
+    return sample([ 
+        "fixable",
+        "warnable",
+        "bad",
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined
+    ]);
+}
+
 function slow (callback) {
     setTimeout(() => {
-        callback();
+        callback(randomOutcome());
     }, 1000);
 }
 
@@ -19,39 +39,115 @@ function slowest(callback) {
 }
 
 function slowesterer(callback) {
+
     setTimeout(() => {
         callback();
     }, 4000);
 }
 
-slow(function () {
+slow(function (err) {
+    if (err === "fixable") {
+        // fix the error
+    }
+
+    if (err === "warnable") {
+        console.log("Imma let you finish, but: " + err);
+    }
+
+    if (err) {
+        console.log("Something Happened!");
+        return;
+    }
+
     console.log(1);
 
-    slow(function () {
+    slow(function (err) {
+        if (err === "fixable") {
+            // fix the error
+        }
+
+        if (err === "warnable") {
+            console.log("Imma let you finish, but: " + err);
+        }
+
+        if (err) {
+            console.log("Something Happened!");
+            return;
+        }
+
         console.log(2);
 
-        slower(function () {
+        slower(function (err) {
+            if (err) {
+                console.log("Something Happened!");
+                return;
+            }
             console.log(3);
 
-            slow(function () {
+            slow(function (err) {
+                if (err === "fixable") {
+                    // fix the error
+                }
+
+                if (err === "warnable") {
+                    console.log("Imma let you finish, but: " + err);
+                }
+
+                if (err) {
+                    console.log("Something Happened!");
+                    return;
+                }
+
                 console.log(4);
 
-                slowest(function () {
+                slowest(function (err) {
+                    if (err) {
+                        console.log("Something Happened!");
+                        return;
+                    }
                     console.log(5);
 
-                    slower(function () {
+                    slower(function (err) {
+                        if (err) {
+                            console.log("Something Happened!");
+                            return;
+                        }
                         console.log(6);
 
-                        slowesterer(function () {
+                        slowesterer(function (err) {
+                            if (err) {
+                                console.log("Something Happened!");
+                                return;
+                            }
                             console.log(7);
 
-                            slowest(function () {
+                            slowest(function (err) {
+                                if (err) {
+                                    console.log("Something Happened!");
+                                    return;
+                                }
                                 console.log(8);
 
-                                slow(function () {
+                                slow(function (err) {
+                                    if (err === "fixable") {
+                                        // fix the error
+                                    }
+
+                                    if (err === "warnable") {
+                                        console.log("Imma let you finish, but: " + err);
+                                    }
+
+                                    if (err) {
+                                        console.log("Something Happened!");
+                                        return;
+                                    }
                                     console.log(9);
 
-                                    slower(function () {
+                                    slower(function (err) {
+                                        if (err) {
+                                            console.log("Something Happened!");
+                                            return;
+                                        }
                                         console.log(10);
                                     });
                                 });
